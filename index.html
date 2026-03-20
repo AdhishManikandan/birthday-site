@@ -487,11 +487,11 @@ function goToPage(pageNumber){
 
     // find current visible page
     let currentPage;
-    pages.forEach(p => {
-        if (p.style.display === 'flex') {
-            currentPage = p;
-        }
-    });
+pages.forEach(p => {
+    if (window.getComputedStyle(p).display !== 'none') {
+        currentPage = p;
+    }
+     });
 
     // fade out current page
     if (currentPage) {
