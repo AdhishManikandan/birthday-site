@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+        <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+        <style>
+body {
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(
+        to bottom,
+        #ffe4ec,
+        #ffd6e0
+    );
+    overflow: hidden;
+}
+section {
+    display: none;
+    height: 100dvh;
+
+    display: flex;              /* THIS WAS MISSING */
+    flex-direction: column;
+    
+
+    opacity: 0;
+    transition: opacity 0.4s ease;
+
+    justify-content: center;
+    align-items: center;
+
+    text-align: center;
+
+    padding: 16px;
+    box-sizing: border-box;
+
+    transform: translateY(-20px);
+}
+
+section.active {
+    opacity: 1;
+}
+
+#page1 {
+    display: flex;
+    opacity: 1;
+}
+
+.title {
+    font-family: 'Playfair Display', serif;
+    font-weight: 600;
+    font-size: clamp(22px, 6vw, 32px);
+    margin-bottom: 16px;
+}
+
+#sub1, #startBtn {
+    opacity: 0;
+    transition: opacity 0.6s ease;
+}
+
+.subtitle {
+    font-size: clamp(14px, 4vw, 18px);
+    margin-top: 12px;
+    margin-bottom: 20px;
+    color: #555;
+}
+
+button {
+    padding: 12px 20px;
+    border: none;
+    border-radius: 18px;
+    position: relative;
+    overflow: hidden;
+
+    background: #ff6b81;
+    color: white;
+
+    font-size: 14px;
+
+    cursor: pointer;
+
+    transition: all 0.2s ease;
+
+    box-shadow: 0 6px 15px rgba(255, 107, 129, 0.3);
+
+     -webkit-tap-highlight-color: transparent;
+
+}
+
+
+button:focus {
+    outline: none;
+}
+
+button:focus-visible {
+    outline: none;
+}
+
+button:active {
+    transform: scale(0.95);
+    box-shadow: 0 4px 10px rgba(255, 107, 129, 0.2);
+}
+.pulse-btn {
+    animation: pulseBtn 2s infinite;
+}
+
+@keyframes pulseBtn {
+    0%, 100% {
+        box-shadow: 0 6px 15px rgba(255, 107, 129, 0.3);
+    }
+    50% {
+        box-shadow: 0 10px 25px rgba(255, 107, 129, 0.5);
+    }
+}
+
+.photo {
+    width: 400px;   /* control here instead */
+    height: auto;
+
+
+    border-radius: 16px;
+
+    opacity: 0;
+    transform: translateX(-10px) scale(0.9);
+
+    animation: fadeZoom 0.8s ease forwards;
+    animation-delay: 0.3s;
+
+    position: relative;
+    z-index: 1;
+}
+.photo-box {
+    width: auto;              /* IMPORTANT */
+    max-width: 220px;         /* control size */
+    padding: 40px;
+
+    border-radius: 24px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background: #ffe4ec;
+    position: relative;
+    overflow: hidden;
+
+    animation: glow 2.5s ease-in-out infinite;
+}
+.photo-box::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+
+    background: radial-gradient(
+        circle at center,
+        rgba(255, 255, 255, 0.7) 0%,
+        rgba(255, 182, 193, 0.3) 40%,
+        transparent 75%
+    );
+
+    animation: breathe 4s ease-in-out infinite;
+
+    z-index: 0;
+}
+#bdayText {
+    opacity: 0;
+
+    animation:
+        fadeIn 0.6s ease forwards,
+        floatText 3s ease-in-out infinite 0.6s,
+        glowText 2.5s ease-in-out infinite 0.6s;
+}
+
+#finalText {
+    margin:30px;
+    opacity: 0;
+    animation: fadeIn 0.6s ease forwards;
+    animation-delay: 0.9s;
+}
+#page3 .title {
+    opacity: 0;
+    animation: fadeIn 0.6s ease forwards;
+}
+
+.counter-box {
+    opacity: 0;
+    animation: fadeIn 0.6s ease forwards;
+}
+
+.counter-box:nth-of-type(1) { animation-delay: 0.2s; }
+.counter-box:nth-of-type(2) { animation-delay: 0.4s; }
+.counter-box:nth-of-type(3) { animation-delay: 0.6s; }
+.counter-box:nth-of-type(4) { animation-delay: 0.8s; }
+
+#page3 .subtitle {
+    opacity: 0;
+    animation: fadeIn 0.6s ease forwards;
+    animation-delay: 1s;
+}
+.counter-box {
+    background: #ffe4ec;
+    padding: 12px;
+    border-radius: 16px;
+    margin: 6px 0;
+    width: 80%;
+    max-width: 260px;
+
+    box-shadow: 0 8px 20px rgba(255, 107, 129, 0.15);
+}
+
+.time {
+    font-size: 22px;
+    font-weight: bold;
+}
+.heart {
+    display: inline-block;
+    animation: heartbeat 1.2s ease-in-out infinite;
+}
+.final-photo {
+    width: 70%;
+    max-width: 280px;
+    border-radius: 20px;
+    margin-bottom: 20px;
+
+    box-shadow: 0 10px 30px rgba(255, 107, 129, 0.2);
+}
+
+#loveMessage {
+    font-size: 16px;
+    margin: 10px 0;
+    color: #444;
+    min-height: 50px;
+}
+
+#finalBtn {
+    opacity: 0;
+    transition: opacity 0.6s ease;
+    margin-top: 16px;
+}
+#lovePopup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.8);
+
+    background: white;
+    padding: 20px 30px;
+    border-radius: 20px;
+
+    font-size: 20px;
+    font-weight: bold;
+
+    opacity: 0;
+    z-index: 999;
+
+    transition: all 0.3s ease;
+}
+.ripple {
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    background: rgba(255,255,255,0.4);
+    border-radius: 50%;
+    transform: scale(0);
+    animation: rippleAnim 0.5s linear;
+}
+
+@keyframes rippleAnim {
+    to {
+        transform: scale(3);
+        opacity: 0;
+    }
+}
+@keyframes heartbeat {
+    0%, 100% { transform: scale(1); }
+    25% { transform: scale(1.2); }
+    40% { transform: scale(1); }
+    60% { transform: scale(1.2); }
+}
+
+
+@keyframes fadeIn {
+    to { opacity: 1; }
+}
+
+@keyframes fadeZoom {
+    to {
+        opacity: 1;
+        transform: translateX(-10px) scale(1);
+    }
+}
+@keyframes gradientMove {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+@keyframes glow {
+    0%, 100% {
+        box-shadow: 0 10px 30px rgba(255, 107, 129, 0.2);
+    }
+    50% {
+        box-shadow: 0 15px 45px rgba(255, 107, 129, 0.4);
+    }
+}
+
+@keyframes shine {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+@keyframes breathe {
+    0%, 100% {
+        opacity: 0.9;
+    }
+    50% {
+        opacity: 1;
+    }
+}
+@keyframes floatText {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-6px);
+    }
+}
+@keyframes floatText {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-6px);
+    }
+}
+       
+    </style>
+        <title>Happy Birthday</title>
+    </head>
+
+    <body>
+
+    <section id="page1" class="active">
+
+    <h1 class="title" id="typeText"></h1>
+    <p class="subtitle" id="sub1">So I made a little surprise just for you😚</p>
+    <button class="pulse-btn" onclick="goToPage(2)" id="startBtn">Let’s Begin 🎁</button>
+</section>
+
+    </section>
+
+    </section>
+
+    <section id="page2">
+
+    <h1 class="title" id="bdayText">Happy Birthday,<i>Amru</i>❤️</h1>
+
+     <div class="photo-box">
+    <img src="assets/images/her.png" class="photo" class="photo">
+    </div>
+
+    <p class="subtitle" id="finalText">Wishing you the happiest 20th birthday ✨</p>
+
+
+    <button class="pulse-btn" onclick="goToPage(3)">Next →</button>
+
+
+    </section>
+
+     <section id="page3">
+
+
+    <h1 class="title">
+    It’s been....<span class="heart">❤️</span>
+    </h1>
+
+    <div class="counter-box">
+        <div class="time" id="days">0</div>
+        <span>Days</span>
+    </div>
+
+    <div class="counter-box">
+        <div class="time" id="hours">0</div>
+        <span>Hours</span>
+    </div>
+
+    <div class="counter-box">
+        <div class="time" id="minutes">0</div>
+        <span>Minutes</span>
+    </div>
+
+    <div class="counter-box">
+        <div class="time" id="seconds">0</div>
+        <span>Seconds</span>
+    </div>
+
+    <p class="subtitle">Since we started this🫂</p>
+
+    <button class="pulse-btn" onclick="goToPage(4)">Next →</button>
+
+</section>>
+<section id="page4">
+
+    <img src="assets/images/us.jpeg" class="final-photo">
+
+    <p id="loveMessage"></p>
+
+    <button id="finalBtn" class="pulse-btn" onclick="showLove()">One last thing ❤️‍🩹</button>
+
+</section>
+
+<div id="lovePopup">I Love You 😘</div>
+
+<script>
+
+let counterInterval;
+
+const text = "Today is a special day ";
+let index = 0;
+
+function typeWriter() {
+    if (index < text.length) {
+        document.getElementById("typeText").innerHTML += text.charAt(index);
+        index++;
+        setTimeout(typeWriter, 50);
+   } else {
+    // add emoji AFTER typing
+    document.getElementById("typeText").innerHTML += "🎂";
+
+    // subtitle appears first
+    setTimeout(() => {
+        document.getElementById("sub1").style.opacity = 1;
+    }, 400);
+
+    // button appears slightly after
+    setTimeout(() => {
+        document.getElementById("startBtn").style.opacity = 1;
+    }, 800);
+}
+}
+
+typeWriter();
+
+
+function goToPage(pageNumber){
+
+    const pages = document.querySelectorAll('section');
+
+    // 📳 vibration (mobile only)
+    if (navigator.vibrate) {
+        navigator.vibrate(30);
+    }
+
+    // find current visible page
+    let currentPage;
+    pages.forEach(p => {
+        if (p.style.display === 'flex') {
+            currentPage = p;
+        }
+    });
+
+    // fade out current page
+    if (currentPage) {
+        currentPage.style.opacity = '0';
+    }
+
+    setTimeout(() => {
+
+        // hide all pages
+        for (let i = 0; i < pages.length; i++){
+            pages[i].style.display = 'none';
+        }
+
+        let pageId = 'page' + pageNumber;
+        let nextPage = document.getElementById(pageId);
+
+        nextPage.style.display = 'flex';
+
+        // reset opacity before fade in
+        nextPage.style.opacity = '0';
+
+        // small delay to trigger transition
+        setTimeout(() => {
+            nextPage.style.opacity = '1';
+        }, 20);
+
+        // restart animations (your original logic)
+        const animatedElements = nextPage.querySelectorAll('*');
+
+        animatedElements.forEach(el => {
+            el.style.animation = 'none';
+            el.offsetHeight;
+            el.style.animation = null;
+        });
+
+        // 🎉 confetti (page 2)
+        if(pageNumber === 2){
+            setTimeout(() => {
+                confetti({
+                    particleCount: 100,
+                    spread: 70,
+                    origin: { y: 0.6 }
+                });
+            }, 800);
+        }
+
+        // ⏱ counters (page 3)
+        if (pageNumber === 3) {
+            loadCounters();
+        }
+
+        // ❤️ final message (page 4)
+        if (pageNumber === 4) {
+
+            document.getElementById("loveMessage").innerHTML = "";
+            msgIndex = 0;
+
+            typeLoveMessage();
+        }
+
+    }, 300); // transition timing
+}
+// your relationship start date
+const startDate = new Date(2025, 9, 25, 19, 31, 0);
+
+// animate numbers from 0 → target
+function animateCounter(id, target) {
+    let current = 0;
+
+    const duration = 1000; // total time (1 second)
+    const fps = 60;
+    const totalFrames = Math.round((duration / 1000) * fps);
+
+    let frame = 0;
+
+    const counter = setInterval(() => {
+        frame++;
+
+        const progress = frame / totalFrames;
+        const value = Math.floor(progress * target);
+
+        document.getElementById(id).innerText = value;
+
+        if (frame >= totalFrames) {
+            document.getElementById(id).innerText = target;
+            clearInterval(counter);
+        }
+
+    }, 1000 / fps);
+}
+// calculate real values
+function loadCounters() {
+    const now = new Date();
+    const diff = now - startDate;
+
+    const totalSeconds = Math.floor(diff / 1000);
+
+    const days = Math.floor(totalSeconds / 86400);
+    const hours = Math.floor((totalSeconds % 86400) / 3600);
+    const minutes = Math.floor((totalSeconds % 3600) / 60);
+    const seconds = totalSeconds % 60;
+
+    animateCounter("days", days);
+    animateCounter("hours", hours);
+    animateCounter("minutes", minutes);
+    animateCounter("seconds", seconds);
+
+    // after animation → keep updating live
+    clearInterval(counterInterval); // stop old timer if exists
+
+counterInterval = setInterval(() => {
+    const now = new Date();
+    const diff = now - startDate;
+
+    const totalSeconds = Math.floor(diff / 1000);
+
+    document.getElementById("days").innerText =
+        Math.floor(totalSeconds / 86400);
+
+    document.getElementById("hours").innerText =
+        Math.floor((totalSeconds % 86400) / 3600);
+
+    document.getElementById("minutes").innerText =
+        Math.floor((totalSeconds % 3600) / 60);
+
+    document.getElementById("seconds").innerText =
+        totalSeconds % 60;
+
+}, 1000);
+}
+const loveText = "Being with you has made my life better in ways I never expected. I’m really grateful for you.";
+
+let msgIndex = 0;
+
+function typeLoveMessage() {
+    if (msgIndex < loveText.length) {
+        document.getElementById("loveMessage").innerHTML += loveText.charAt(msgIndex);
+        msgIndex++;
+        setTimeout(typeLoveMessage, 35);
+    } else {
+        document.getElementById("finalBtn").style.opacity = 1;
+    }
+}
+
+function showLove() {
+    const popup = document.getElementById("lovePopup");
+
+    popup.style.opacity = 1;
+    popup.style.transform = "translate(-50%, -50%) scale(1)";
+
+    confetti({
+        particleCount: 100,
+        spread: 70,
+        colors: ['#ff6b81', '#ff8fa3', '#ffb3c1'],
+        origin: { y: 0.6 }
+    });
+
+    setTimeout(() => {
+        popup.style.opacity = 0;
+    }, 2000);
+}
+document.querySelectorAll("button").forEach(btn => {
+    btn.addEventListener("click", function(e) {
+
+        const circle = document.createElement("span");
+        circle.classList.add("ripple");
+
+        const rect = btn.getBoundingClientRect();
+
+        const size = Math.max(btn.clientWidth, btn.clientHeight);
+        circle.style.width = size + "px";
+        circle.style.height = size + "px";
+
+        circle.style.left = (e.clientX - rect.left - size / 2) + "px";
+        circle.style.top = (e.clientY - rect.top - size / 2) + "px";
+
+        btn.appendChild(circle);
+
+        setTimeout(() => {
+            circle.remove();
+        }, 600);
+    });
+});
+    </script>
+
+    </body>  
+</html>
