@@ -447,6 +447,8 @@ button:active {
 
 let counterInterval;
 
+let isPopupActive = false;
+
 const text = "Today is a special day ";
 let index = 0;
 
@@ -635,11 +637,18 @@ function typeLoveMessage() {
 }
 
 function showLove() {
+
+    // prevent spam clicking
+    if (isPopupActive) return;
+
+    isPopupActive = true;
+
     const popup = document.getElementById("lovePopup");
 
-   popup.style.animation = "popupScale 0.4s ease forwards";
-   popup.style.opacity = 1;
+    popup.style.animation = "popupScale 0.4s ease forwards";
+    popup.style.opacity = 1;
 
+    // confetti
     confetti({
         particleCount: 100,
         spread: 70,
@@ -649,7 +658,8 @@ function showLove() {
 
     setTimeout(() => {
         popup.style.opacity = 0;
-    }, 3000);
+        isPopupActive = false; // allow again after finish
+    }, 2000);
 }
 document.querySelectorAll("button").forEach(btn => {
     btn.addEventListener("click", function(e) {
