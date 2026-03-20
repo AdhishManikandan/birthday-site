@@ -457,28 +457,29 @@ function typeWriter() {
         document.getElementById("typeText").innerHTML += text.charAt(index);
         index++;
         setTimeout(typeWriter, 50);
-   } else {
-    // add emoji AFTER typing
-    document.getElementById("typeText").innerHTML += "🎂";
+    } else {
+        // add emoji AFTER typing
+        document.getElementById("typeText").innerHTML += "🎂";
 
-    // subtitle appears first
-    setTimeout(() => {
-        document.getElementById("sub1").style.opacity = 1;
-    }, 400);
+        // subtitle appears first
+        setTimeout(() => {
+            document.getElementById("sub1").style.opacity = 1;
+        }, 400);
 
-    // button appears slightly after
-    setTimeout(() => {
-        const btn = document.getElementById("startBtn");
+        // button appears slightly after
+        setTimeout(() => {
+            const btn = document.getElementById("startBtn");
 
-        btn.style.opacity = 1;
+            btn.style.opacity = 1;
 
-        // ✅ enable button here
-        btn.disabled = false;
+            // enable button
+            btn.disabled = false;
 
-    }, 800);
+        }, 800);
+    }
 }
-}
 
+// start typing
 typeWriter();
 
 
