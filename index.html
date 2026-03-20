@@ -384,8 +384,6 @@ button:active {
 
     </section>
 
-    </section>
-
     <section id="page2">
 
     <h1 class="title" id="bdayText">Happy Birthday,<i>Amru</i>❤️</h1>
@@ -433,7 +431,7 @@ button:active {
 
     <button class="pulse-btn" onclick="goToPage(4)">Continue →</button>
 
-</section>>
+</section>
 <section id="page4">
 
     <img src="assets/images/us.jpeg" class="final-photo">
@@ -503,12 +501,6 @@ pages.forEach(p => {
     }
      });
 
-    pages.forEach(p => {
-    p.classList.remove("active");
-});
-
-nextPage.classList.add("active");
-
     // fade out current page
     if (currentPage) {
         currentPage.style.opacity = '0';
@@ -523,6 +515,14 @@ nextPage.classList.add("active");
 
         let pageId = 'page' + pageNumber;
         let nextPage = document.getElementById(pageId);
+
+        
+    pages.forEach(p => {
+    p.classList.remove("active");
+});
+
+nextPage.classList.add("active");
+
 
         nextPage.style.display = 'flex';
 
