@@ -506,6 +506,12 @@ pages.forEach(p => {
     }
      });
 
+    pages.forEach(p => {
+    p.classList.remove("active");
+});
+
+nextPage.classList.add("active");
+
     // fade out current page
     if (currentPage) {
         currentPage.style.opacity = '0';
