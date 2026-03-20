@@ -376,7 +376,7 @@ button:active {
 
     <h1 class="title" id="typeText"></h1>
     <p class="subtitle" id="sub1">So I made a little surprise just for you😚</p>
-    <button class="pulse-btn" onclick="goToPage(2)" id="startBtn">Let’s Begin 🎁</button>
+    <button class="pulse-btn" onclick="goToPage(2)" id="startBtn" disabled >Let’s Begin 🎁</button>
 </section>
 
     </section>
@@ -457,7 +457,7 @@ function typeWriter() {
         document.getElementById("typeText").innerHTML += text.charAt(index);
         index++;
         setTimeout(typeWriter, 50);
-   } else {
+   } } else {
     // add emoji AFTER typing
     document.getElementById("typeText").innerHTML += "🎂";
 
@@ -468,7 +468,13 @@ function typeWriter() {
 
     // button appears slightly after
     setTimeout(() => {
-        document.getElementById("startBtn").style.opacity = 1;
+        const btn = document.getElementById("startBtn");
+
+        btn.style.opacity = 1;
+
+        // ✅ enable button here
+        btn.disabled = false;
+
     }, 800);
 }
 }
